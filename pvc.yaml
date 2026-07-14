@@ -1,12 +1,20 @@
-apiVersion: v1
-kind: PersistentVolumeClaim
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
 metadata:
-  name: pipelinerun-pvc
+  generateName: tc-pipeline-run-
 spec:
-  storageClassName: skills-network-learner
-  resources:
-    requests:
-      storage:  1Gi
-  volumeMode: Filesystem
-  accessModes:
-    - ReadWriteOnce
+  serviceAccountName: pipeline
+  pipelineRef:
+    name: tc-pipeline
+  params:
+    - name: repo-url
+      value: "https://github.com/ibm-developer-skills-network/zntwk-tax_calculator.git"
+    - name: branch
+      value: "main"
+  workspaces:
+  - name: pipeline-workspace
+    persistentVolumeClaim:
+      claumName: pipelinerun-pvc
+  - name: dockerconfig-ws
+    secret:
+      secretName: docker-reg-creds
