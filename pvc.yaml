@@ -14,7 +14,7 @@ spec:
   workspaces:
   - name: pipeline-workspace
     persistentVolumeClaim:
-      claumName: pipelinerun-pvc
+      claimName: pipelinerun-pvc
   - name: dockerconfig-ws
     secret:
       secretName: docker-reg-creds
